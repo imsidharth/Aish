@@ -22,7 +22,7 @@
       overflow: hidden;
     }
 
-    /* Falling Hearts Styling */
+    /* Falling Hearts */
     .heart {
       position: absolute;
       color: var(--primary-pink);
@@ -68,13 +68,14 @@
 
     .subtitle { font-size: 0.95rem; color: #777; margin-bottom: 30px; line-height: 1.5; }
 
+    /* Button Container stays perfectly aligned */
     .btn-container {
       margin-top: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 15px;
-      min-height: 150px;
+      gap: 25px;
+      min-height: 200px; /* Space for growing button */
     }
 
     button {
@@ -84,23 +85,23 @@
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .go-btn, .yes-btn {
       background: var(--primary-pink);
       color: white;
       box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-      z-index: 11;
+      z-index: 15;
     }
 
+    /* No button uses translate for a clean "dodge" within alignment */
     .no-btn {
       background: #eee;
       color: #666;
-      position: relative;
       z-index: 12;
-      /* Smoother transition for the "dodge" */
-      transition: left 0.2s ease, top 0.2s ease;
+      position: relative; 
+      transition: transform 0.2s ease;
     }
 
     .popup {
@@ -151,13 +152,13 @@
   </div>
 
   <script>
+    // Falling Hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
       heart.innerHTML = '❤️';
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-      heart.style.opacity = Math.random();
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 5000);
     }
@@ -177,29 +178,27 @@
     let yesScale = 1;
 
     noBtn.addEventListener('mouseover', () => {
-      noBtn.style.position = 'absolute';
+      // Small dodge movement (strictly 50-60px from current center)
+      const minMove = 50;
+      const maxMove = 60;
       
-      // Limit distance to a small 50px dodge
-      const moveDistance = 50; 
-      const randomX = (Math.random() - 0.5) * moveDistance * 2;
-      const randomY = (Math.random() - 0.5) * moveDistance * 2;
+      // Randomly choose a direction (-1 or 1) and multiply by a random value in range
+      const moveX = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * (maxMove - minMove) + minMove);
+      const moveY = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * (maxMove - minMove) + minMove);
       
-      const rect = noBtn.getBoundingClientRect();
-      
-      let newLeft = rect.left + randomX;
-      let newTop = rect.top + randomY;
-      
-      // Screen bounds check
-      newLeft = Math.max(20, Math.min(window.innerWidth - rect.width - 20, newLeft));
-      newTop = Math.max(20, Math.min(window.innerHeight - rect.height - 20, newTop));
-      
-      noBtn.style.left = newLeft + 'px';
-      noBtn.style.top = newTop + 'px';
+      // We use translate so the button stays aligned with its flexbox container
+      noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
 
-      // Grow the Yes button
+      // Grow Yes Button
       yesScale += 0.2;
       yesBtn.style.transform = `scale(${yesScale})`;
     });
+
+    // Reset No button position if they click Yes (cleaner transition)
+    function sayYes() {
+      noBtn.style.transform = 'translate(0,0)';
+      document.getElementById('popup').style.display = 'flex';
+    }
   </script>
 
 </body>
