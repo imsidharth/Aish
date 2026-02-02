@@ -4,12 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>For Aishooo ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-pink: #ff4d6d;
+      --soft-pink: #ffccd5;
+      --accent-green: #43aa8b;
+    }
+
     body {
       margin: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      background: radial-gradient(circle, #fff0f3 0%, #ffccd5 100%);
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -20,122 +26,129 @@
     .page {
       display: none;
       background: white;
-      padding: 45px 35px;
-      border-radius: 24px;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+      padding: 50px 40px;
+      border-radius: 30px;
+      box-shadow: 0 20px 40px rgba(255, 77, 109, 0.2);
       text-align: center;
+      width: 350px;
       max-width: 90%;
-      animation: fadeIn 0.8s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
 
     .page.active {
       display: block;
+      animation: fadeIn 0.6s ease-out;
     }
 
     h1 {
-      font-size: 2.3rem;
-      margin-bottom: 25px;
-      color: #333;
+      font-family: 'Pacifico', cursive;
+      font-size: 2.2rem;
+      color: var(--primary-pink);
+      margin-bottom: 10px;
     }
 
     .subtitle {
-      font-size: 1rem;
-      color: #666;
+      font-size: 0.95rem;
+      color: #777;
       margin-bottom: 30px;
-    }
-
-    button {
-      padding: 14px 34px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 40px;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-    }
-
-    .go-btn {
-      background: linear-gradient(135deg, #ff4d6d, #ff758c);
-      color: white;
-    }
-
-    .yes-btn {
-      background: linear-gradient(135deg, #38b000, #70e000);
-      color: white;
-      margin-right: 25px;
-    }
-
-    .no-btn {
-      background: linear-gradient(135deg, #adb5bd, #ced4da);
-      color: #333;
-      position: absolute;
+      line-height: 1.5;
     }
 
     .btn-container {
-      margin-top: 35px;
-      position: relative;
-      height: 140px;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      min-height: 60px;
     }
 
+    button {
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .go-btn, .yes-btn {
+      background: var(--primary-pink);
+      color: white;
+      box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+    }
+
+    .go-btn:hover, .yes-btn:hover {
+      transform: scale(1.1);
+      background: #ff1f4b;
+    }
+
+    .no-btn {
+      background: #eee;
+      color: #666;
+      position: relative; /* Positioned relatively until first hover */
+      z-index: 5;
+    }
+
+    /* Popup Styling */
     .popup {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.6);
+      background: rgba(255, 192, 203, 0.8);
+      backdrop-filter: blur(8px);
       justify-content: center;
       align-items: center;
-      z-index: 10;
+      z-index: 100;
     }
 
     .popup-content {
       background: white;
-      padding: 40px 35px;
-      border-radius: 26px;
+      padding: 40px;
+      border-radius: 30px;
       text-align: center;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
-      animation: pop 0.5s ease;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+      animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes pop {
-      from { transform: scale(0.7); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+      from { transform: scale(0); }
+      to { transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-  <!-- PAGE 1 -->
   <div class="page active" id="page1">
     <h1>Hi Aishooo... 💖</h1>
-    <p class="subtitle">I have something important to ask you</p>
-    <button class="go-btn" onclick="goToPage2()">Go</button>
+    <p class="subtitle">I’ve been wanting to ask you something special.</p>
+    <button class="go-btn" onclick="goToPage2()">Click to open 💌</button>
   </div>
 
-  <!-- PAGE 2 -->
   <div class="page" id="page2">
-    <h1>Will you be Sidhu's Valentine forever? 💘</h1>
+    <h1>Will you be my Valentine? 💘</h1>
+    <p class="subtitle">Forever and always?</p>
     <div class="btn-container">
-      <button class="yes-btn" onclick="sayYes()">Yes 💚</button>
+      <button class="yes-btn" onclick="sayYes()">Yes! 🥰</button>
       <button class="no-btn" id="noBtn">No 🙈</button>
     </div>
   </div>
 
-  <!-- POPUP -->
   <div class="popup" id="popup">
     <div class="popup-content">
       <h1>Yay! 🎉❤️</h1>
-      <p style="font-size:1.1rem; margin-top:10px;">
-        Congratulations,I love you so much 💖
-      </p>
+      <p style="font-size:1.2rem; color: #444;">You just made Sidhu the happiest person! <br><strong>I love you so much 💖</strong></p>
+      <button class="go-btn" style="margin-top: 20px;" onclick="location.reload()">Yay! ❤️</button>
     </div>
   </div>
 
@@ -151,13 +164,29 @@
 
     const noBtn = document.getElementById('noBtn');
 
-    noBtn.addEventListener('mouseenter', () => {
-      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-      noBtn.style.left = x + 'px';
-      noBtn.style.top = y + 'px';
+    noBtn.addEventListener('mouseover', () => {
+      // Set to absolute only after first hover to keep it centered initially
+      noBtn.style.position = 'absolute';
+      
+      const moveDistance = 150; // Maximum distance it can jump
+      
+      // Calculate random movement within a range
+      const randomX = (Math.random() - 0.5) * moveDistance * 2;
+      const randomY = (Math.random() - 0.5) * moveDistance * 2;
+
+      // Get current position
+      const rect = noBtn.getBoundingClientRect();
+      
+      // Apply new position with screen boundary checks
+      let newLeft = rect.left + randomX;
+      let newTop = rect.top + randomY;
+
+      // Keep within window bounds
+      newLeft = Math.max(20, Math.min(window.innerWidth - rect.width - 20, newLeft));
+      newTop = Math.max(20, Math.min(window.innerHeight - rect.height - 20, newTop));
+
+      noBtn.style.left = newLeft + 'px';
+      noBtn.style.top = newTop + 'px';
     });
   </script>
 
