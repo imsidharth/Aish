@@ -22,7 +22,7 @@
       overflow: hidden;
     }
 
-    /* Falling Hearts Styling */
+    /* Falling Hearts */
     .heart {
       position: absolute;
       color: var(--primary-pink);
@@ -35,9 +35,7 @@
     }
 
     @keyframes fall {
-      to {
-        transform: translateY(105vh) rotate(360deg);
-      }
+      to { transform: translateY(105vh) rotate(360deg); }
     }
 
     .page {
@@ -75,8 +73,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 15px;
-      min-height: 150px; /* Space for the growing button */
+      gap: 20px;
+      min-height: 100px;
     }
 
     button {
@@ -86,14 +84,14 @@
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.2s ease;
     }
 
     .go-btn, .yes-btn {
       background: var(--primary-pink);
       color: white;
       box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-      z-index: 11;
+      z-index: 15;
     }
 
     .no-btn {
@@ -101,6 +99,7 @@
       color: #666;
       position: relative;
       z-index: 12;
+      transition: left 0.2s ease, top 0.2s ease;
     }
 
     .popup {
@@ -129,8 +128,8 @@
 
   <div class="page active" id="page1">
     <h1>Hi Aishooo... 💖</h1>
-    <p class="subtitle">Njn oru chodhym angot chodikum.Answer Thernm...Illenkil!</p>
-    <button class="go-btn" onclick="goToPage2()"> Kuthiyal thurakum💌</button>
+    <p class="subtitle">Njn oru chodhym angot chodikum. Answer Thernm... Illenkil!</p>
+    <button class="go-btn" onclick="goToPage2()">Kuthiyal thurakum 💌</button>
   </div>
 
   <div class="page" id="page2">
@@ -145,20 +144,19 @@
   <div class="popup" id="popup">
     <div class="popup-content">
       <h1>Yay! 🎉❤️</h1>
-      <p style="font-size:1.2rem; color: #444;">I knew you will say yes,you Potato! <br><strong>Now you're stuck with me forever 💖</strong></p>
+      <p style="font-size:1.2rem; color: #444;">I knew you will say yes, you Potato! <br><strong>Now you're stuck with me forever 💖</strong></p>
       <button class="go-btn" style="margin-top: 20px;" onclick="location.reload()">Yay! ❤️</button>
     </div>
   </div>
 
   <script>
-    // Falling Hearts Logic
+    // Falling Hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
       heart.innerHTML = '❤️';
       heart.style.left = Math.random() * 100 + 'vw';
       heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-      heart.style.opacity = Math.random();
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 5000);
     }
@@ -178,24 +176,27 @@
     let yesScale = 1;
 
     noBtn.addEventListener('mouseover', () => {
-      // Move No Button
+      // 1. Move No Button (Strictly 100px range)
       noBtn.style.position = 'absolute';
-      const moveDistance = 150;
-      const randomX = (Math.random() - 0.5) * moveDistance * 2;
-      const randomY = (Math.random() - 0.5) * moveDistance * 2;
-      const rect = noBtn.getBoundingClientRect();
+      const maxMove = 100;
       
+      // Calculate a random spot within 100px of current spot
+      const randomX = (Math.random() - 0.5) * 2 * maxMove;
+      const randomY = (Math.random() - 0.5) * 2 * maxMove;
+      
+      const rect = noBtn.getBoundingClientRect();
       let newLeft = rect.left + randomX;
       let newTop = rect.top + randomY;
       
+      // Stay within screen bounds
       newLeft = Math.max(20, Math.min(window.innerWidth - rect.width - 20, newLeft));
       newTop = Math.max(20, Math.min(window.innerHeight - rect.height - 20, newTop));
       
       noBtn.style.left = newLeft + 'px';
       noBtn.style.top = newTop + 'px';
 
-      // Grow Yes Button
-      yesScale += 0.2; // Increase scale by 20% each time
+      // 2. Grow Yes Button
+      yesScale += 0.15;
       yesBtn.style.transform = `scale(${yesScale})`;
     });
   </script>
