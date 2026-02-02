@@ -22,6 +22,7 @@
       overflow: hidden;
     }
 
+    /* Falling Hearts Background */
     .heart {
       position: absolute;
       color: var(--primary-pink);
@@ -67,6 +68,7 @@
 
     .subtitle { font-size: 0.95rem; color: #777; margin-bottom: 30px; line-height: 1.5; }
 
+    /* Centered Button Container */
     .btn-container {
       margin-top: 20px;
       display: flex;
@@ -101,6 +103,7 @@
       transition: transform 0.2s ease;
     }
 
+    /* Popup Styling */
     .popup {
       display: none;
       position: fixed;
@@ -152,7 +155,7 @@
   <div class="popup" id="popup">
     <div class="popup-content">
       <h1>Yay! 🎉❤️</h1>
-      <video id="clappingVideo" playsinline>
+      <video id="clappingVideo" playsinline loop>
         <source src="celebration.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
@@ -162,6 +165,7 @@
   </div>
 
   <script>
+    // 1. Falling Hearts Animation
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
@@ -173,33 +177,39 @@
     }
     setInterval(createHeart, 300);
 
+    // 2. Navigation
     function goToPage2() {
       document.getElementById('page1').classList.remove('active');
       document.getElementById('page2').classList.add('active');
     }
 
+    // 3. The "Yes" Action
     function sayYes() {
       const video = document.getElementById('clappingVideo');
       document.getElementById('popup').style.display = 'flex';
       
-      // Start video at 3 seconds and play
-      video.currentTime = 3;
+      // Starts from 0:00 and loops
       video.play();
       
+      // Reset No button dodge
       noBtn.style.transform = 'translate(0,0)';
     }
 
+    // 4. The "No" Dodge Logic
     const noBtn = document.getElementById('noBtn');
     const yesBtn = document.getElementById('yesBtn');
     let yesScale = 1;
 
     noBtn.addEventListener('mouseover', () => {
+      // Small random dodge between 50-60px
       const minMove = 50;
       const maxMove = 60;
       const moveX = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * (maxMove - minMove) + minMove);
       const moveY = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * (maxMove - minMove) + minMove);
       
       noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+      // Grow Yes Button
       yesScale += 0.2;
       yesBtn.style.transform = `scale(${yesScale})`;
     });
