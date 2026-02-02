@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Aishooo ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .page {
+      display: none;
+      background: white;
+      padding: 45px 35px;
+      border-radius: 24px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+      text-align: center;
+      max-width: 90%;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 2.3rem;
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 14px 34px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
+    }
+
+    .go-btn {
+      background: linear-gradient(135deg, #ff4d6d, #ff758c);
+      color: white;
+    }
+
+    .yes-btn {
+      background: linear-gradient(135deg, #38b000, #70e000);
+      color: white;
+      margin-right: 25px;
+    }
+
+    .no-btn {
+      background: linear-gradient(135deg, #adb5bd, #ced4da);
+      color: #333;
+      position: absolute;
+    }
+
+    .btn-container {
+      margin-top: 35px;
+      position: relative;
+      height: 140px;
+    }
+
+    .popup {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .popup-content {
+      background: white;
+      padding: 40px 35px;
+      border-radius: 26px;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+      animation: pop 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+      from { transform: scale(0.7); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="page1">
+    <h1>Hi Aishooo... 💖</h1>
+    <p class="subtitle">I have something important to ask you</p>
+    <button class="go-btn" onclick="goToPage2()">Go</button>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="page2">
+    <h1>Will you be Sidhu's Valentine forever? 💘</h1>
+    <div class="btn-container">
+      <button class="yes-btn" onclick="sayYes()">Yes 💚</button>
+      <button class="no-btn" id="noBtn">No 🙈</button>
+    </div>
+  </div>
+
+  <!-- POPUP -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h1>Yay! 🎉❤️</h1>
+      <p style="font-size:1.1rem; margin-top:10px;">
+        Congratulations,I love you so much 💖
+      </p>
+    </div>
+  </div>
+
+  <script>
+    function goToPage2() {
+      document.getElementById('page1').classList.remove('active');
+      document.getElementById('page2').classList.add('active');
+    }
+
+    function sayYes() {
+      document.getElementById('popup').style.display = 'flex';
+    }
+
+    const noBtn = document.getElementById('noBtn');
+
+    noBtn.addEventListener('mouseenter', () => {
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    });
+  </script>
+
+</body>
+</html>
