@@ -9,7 +9,6 @@
     :root {
       --primary-pink: #ff4d6d;
       --soft-pink: #ffccd5;
-      --accent-green: #43aa8b;
     }
 
     body {
@@ -23,6 +22,24 @@
       overflow: hidden;
     }
 
+    /* Falling Hearts Styling */
+    .heart {
+      position: absolute;
+      color: var(--primary-pink);
+      font-size: 20px;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear forwards;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(105vh) rotate(360deg);
+      }
+    }
+
     .page {
       display: none;
       background: white;
@@ -32,6 +49,8 @@
       text-align: center;
       width: 350px;
       max-width: 90%;
+      position: relative;
+      z-index: 10;
       animation: float 3s ease-in-out infinite;
     }
 
@@ -40,10 +59,7 @@
       50% { transform: translateY(-10px); }
     }
 
-    .page.active {
-      display: block;
-      animation: fadeIn 0.6s ease-out;
-    }
+    .page.active { display: block; animation: fadeIn 0.6s ease-out; }
 
     h1 {
       font-family: 'Pacifico', cursive;
@@ -52,19 +68,15 @@
       margin-bottom: 10px;
     }
 
-    .subtitle {
-      font-size: 0.95rem;
-      color: #777;
-      margin-bottom: 30px;
-      line-height: 1.5;
-    }
+    .subtitle { font-size: 0.95rem; color: #777; margin-bottom: 30px; line-height: 1.5; }
 
     .btn-container {
       margin-top: 20px;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 15px;
-      min-height: 60px;
+      min-height: 150px; /* Space for the growing button */
     }
 
     button {
@@ -81,21 +93,16 @@
       background: var(--primary-pink);
       color: white;
       box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
-    }
-
-    .go-btn:hover, .yes-btn:hover {
-      transform: scale(1.1);
-      background: #ff1f4b;
+      z-index: 11;
     }
 
     .no-btn {
       background: #eee;
       color: #666;
-      position: relative; /* Positioned relatively until first hover */
-      z-index: 5;
+      position: relative;
+      z-index: 12;
     }
 
-    /* Popup Styling */
     .popup {
       display: none;
       position: fixed;
@@ -113,18 +120,9 @@
       border-radius: 30px;
       text-align: center;
       box-shadow: 0 25px 50px rgba(0,0,0,0.1);
-      animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    @keyframes pop {
-      from { transform: scale(0); }
-      to { transform: scale(1); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
   </style>
 </head>
 <body>
@@ -132,14 +130,14 @@
   <div class="page active" id="page1">
     <h1>Hi Aishooo... 💖</h1>
     <p class="subtitle">Njn oru chodhym angot chodikum.Answer Thernm...Illenkil!</p>
-    <button class="go-btn" onclick="goToPage2()">Click to open 💌</button>
+    <button class="go-btn" onclick="goToPage2()"> Kuthiyal thurakum💌</button>
   </div>
 
   <div class="page" id="page2">
     <h1>Will you be my Valentine? 💘</h1>
     <p class="subtitle">Forever and always?</p>
     <div class="btn-container">
-      <button class="yes-btn" onclick="sayYes()">Yes! 🥰</button>
+      <button class="yes-btn" id="yesBtn" onclick="sayYes()">Yes! 🥰</button>
       <button class="no-btn" id="noBtn">No 🙈</button>
     </div>
   </div>
@@ -147,12 +145,25 @@
   <div class="popup" id="popup">
     <div class="popup-content">
       <h1>Yay! 🎉❤️</h1>
-      <p style="font-size:1.2rem; color: #444;">I know you will say yes,you Potato! <br><strong>I love you so much 💖</strong></p>
+      <p style="font-size:1.2rem; color: #444;">I knew you will say yes,you Potato! <br><strong>Now you're stuck with me forever 💖</strong></p>
       <button class="go-btn" style="margin-top: 20px;" onclick="location.reload()">Yay! ❤️</button>
     </div>
   </div>
 
   <script>
+    // Falling Hearts Logic
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+      heart.style.opacity = Math.random();
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 300);
+
     function goToPage2() {
       document.getElementById('page1').classList.remove('active');
       document.getElementById('page2').classList.add('active');
@@ -163,30 +174,29 @@
     }
 
     const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    let yesScale = 1;
 
     noBtn.addEventListener('mouseover', () => {
-      // Set to absolute only after first hover to keep it centered initially
+      // Move No Button
       noBtn.style.position = 'absolute';
-      
-      const moveDistance = 150; // Maximum distance it can jump
-      
-      // Calculate random movement within a range
+      const moveDistance = 150;
       const randomX = (Math.random() - 0.5) * moveDistance * 2;
       const randomY = (Math.random() - 0.5) * moveDistance * 2;
-
-      // Get current position
       const rect = noBtn.getBoundingClientRect();
       
-      // Apply new position with screen boundary checks
       let newLeft = rect.left + randomX;
       let newTop = rect.top + randomY;
-
-      // Keep within window bounds
+      
       newLeft = Math.max(20, Math.min(window.innerWidth - rect.width - 20, newLeft));
       newTop = Math.max(20, Math.min(window.innerHeight - rect.height - 20, newTop));
-
+      
       noBtn.style.left = newLeft + 'px';
       noBtn.style.top = newTop + 'px';
+
+      // Grow Yes Button
+      yesScale += 0.2; // Increase scale by 20% each time
+      yesBtn.style.transform = `scale(${yesScale})`;
     });
   </script>
 
