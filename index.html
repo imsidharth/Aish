@@ -22,7 +22,6 @@
       overflow: hidden;
     }
 
-    /* Falling Hearts */
     .heart {
       position: absolute;
       color: var(--primary-pink);
@@ -68,14 +67,13 @@
 
     .subtitle { font-size: 0.95rem; color: #777; margin-bottom: 30px; line-height: 1.5; }
 
-    /* Button Container stays perfectly aligned */
     .btn-container {
       margin-top: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 25px;
-      min-height: 200px; /* Space for growing button */
+      min-height: 200px;
     }
 
     button {
@@ -95,7 +93,6 @@
       z-index: 15;
     }
 
-    /* No button uses translate for a clean "dodge" within alignment */
     .no-btn {
       background: #eee;
       color: #666;
@@ -117,10 +114,29 @@
 
     .popup-content {
       background: white;
-      padding: 40px;
+      padding: 30px;
       border-radius: 30px;
       text-align: center;
       box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+      max-width: 90%;
+      width: 400px;
+    }
+
+    .video-container {
+      margin: 20px 0;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
 
     @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
@@ -146,13 +162,14 @@
   <div class="popup" id="popup">
     <div class="popup-content">
       <h1>Yay! 🎉❤️</h1>
-      <p style="font-size:1.2rem; color: #444;">I knew you will say yes, you Potato! <br><strong>Now you're stuck with me forever 💖</strong></p>
-      <button class="go-btn" style="margin-top: 20px;" onclick="location.reload()">Yay! ❤️</button>
+      <div class="video-container" id="videoWrapper">
+        </div>
+      <p style="font-size:1.1rem; color: #444;">I knew you will say yes, you Potato! <br><strong>Now you're stuck with me forever 💖</strong></p>
+      <button class="go-btn" style="margin-top: 10px;" onclick="location.reload()">Yay! ❤️</button>
     </div>
   </div>
 
   <script>
-    // Falling Hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
@@ -170,6 +187,11 @@
     }
 
     function sayYes() {
+      const videoWrapper = document.getElementById('videoWrapper');
+      // Added autoplay=1 and start=3
+      videoWrapper.innerHTML = `<iframe src="https://www.youtube.com/embed/V3GrPW1lygY?autoplay=1&start=3" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+      
+      noBtn.style.transform = 'translate(0,0)';
       document.getElementById('popup').style.display = 'flex';
     }
 
@@ -178,27 +200,15 @@
     let yesScale = 1;
 
     noBtn.addEventListener('mouseover', () => {
-      // Small dodge movement (strictly 50-60px from current center)
       const minMove = 50;
       const maxMove = 60;
-      
-      // Randomly choose a direction (-1 or 1) and multiply by a random value in range
       const moveX = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * (maxMove - minMove) + minMove);
       const moveY = (Math.random() < 0.5 ? -1 : 1) * (Math.random() * (maxMove - minMove) + minMove);
       
-      // We use translate so the button stays aligned with its flexbox container
       noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
-
-      // Grow Yes Button
       yesScale += 0.2;
       yesBtn.style.transform = `scale(${yesScale})`;
     });
-
-    // Reset No button position if they click Yes (cleaner transition)
-    function sayYes() {
-      noBtn.style.transform = 'translate(0,0)';
-      document.getElementById('popup').style.display = 'flex';
-    }
   </script>
 
 </body>
